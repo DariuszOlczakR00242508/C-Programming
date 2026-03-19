@@ -9,7 +9,7 @@ int length_check(char *str){
 	int i;
 	
 	// Pointer arithmetic
-	// go to address str[i] (*(str + i)) and get the vlue
+	// go to address str[i] (*(str + i)) and get the value
 	for(i = 0;str[i] != '\0'; i++);
 	return i;	
 	}
@@ -18,25 +18,23 @@ int length_check(char *str){
 // This function returnes pointer to the char
 // (char *str_in) points to first character of input string
 
-char *duplicate(char *str_in, int n){
+char **duplicate(char *str_in, int n){
 	// Creates a duplicate string in memory
 	// Memory is allocated dynamically	
 	int str_length = length_check(str_in);
 	
-	// pointer stores address of memory 
-	// str_copy is a pointer to char
-	char *str_copy = (char *)malloc((str_length +1)*sizeof(char));
-	char *str_copies = malloc(num * (len + 1));
+	// Allocating a array of pointers
+	char **str_copies = malloc(n * sizeof(char *));
 	if (str_copies == NULL){
 		printf("No memory allocated\n");
 		return NULL;
 	}
 	
 	// Creating duplicates
-	for (int i= 0; i < num; i++){
+	for (int i= 0; i < n; i++){
 		str_copies[i] = malloc((str_length + 1) * sizeof(char));
 		if (str_copies[i] == NULL){
-			printf("No memory allocated\n")
+			printf("No memory allocated\n");
 			return NULL;
 		}
 		for (int j = 0; j < str_length + 1; j++){
@@ -45,24 +43,28 @@ char *duplicate(char *str_in, int n){
 	}
 	return str_copies;
 	
-	for (int i = 0; i < str_length + 1; i++){
-		str_copy[i] = str_in[i];
-		}
-		return str_copy;
-	}
+}
 	
 int main(){
 	char my_string[10];
 	int num;
 	printf("Enter a string: \n");
 	scanf("%s", my_string); 
-	// The name of an array is a memory address
-	//char *copy = duplicate(my_string);
 	
+	printf("Enter a number of copies:\n");
+	scanf("%d", &num);
 	
-	printf("%s", copy);
-	// deallocate the memory
-	// release the memory that copy points to
-	free(copy); 
+	char **copies = duplicate(my_string, num);
+	if(copies == NULL){
+		return 1;
+	}
+	
+	for (int i = 0; i < num; i++){
+		printf("%s\n", copies[i]);
+		// deallocate the memory
+		free(copies[i]);
+	}	
+	// deallocate the memory	
+	free(copies); 
 	return 0;
 }
