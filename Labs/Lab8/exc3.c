@@ -17,14 +17,14 @@ void addEmployee(struct Employee employees[], int *count) {
     printf("Enter name: "); 
     scanf("%s", newEmployee.name); 
     printf("Enter employee ID: "); 
-    scanf("%d", newEmployee.employeeID); 
+    scanf("%d", &newEmployee.employeeID); 
     printf("Enter hours worked: "); 
     scanf("%f", &newEmployee.hoursWorked); 
     printf("Enter hourly wage: "); 
     scanf("%f", &newEmployee.hourlyWage); 
 
     employees[*count] = newEmployee; 
-    count++; 
+    (*count)++; 
 } 
 
 // Function to calculate and display weekly pay for each employee 
@@ -32,7 +32,7 @@ void calculateWeeklyPay(struct Employee employees[], int count) {
     printf("\nWeekly Payroll:\n"); 
     printf("Name\tEmployee ID\tHours Worked\tHourly Wage\tWeekly Pay\n"); 
     for (int i = 0; i < count; i++) { 
-        float weeklyPay = employees[i].hoursWorked * employees[i].employeeID; 
+        float weeklyPay = employees[i].hoursWorked * employees[i].hourlyWage; 
         printf("%s\t%d\t\t%.2f\t\t%.2f\t\t%.2f\n", employees[i].name, employees[i].employeeID, employees[i].hoursWorked, employees[i].hourlyWage, weeklyPay); 
     } 
 } 
@@ -63,7 +63,7 @@ int main() {
         switch(choice) { 
             case 1: 
                 if (count < MAX_EMPLOYEES) { 
-                    addEmployee(employees, count); 
+                    addEmployee(employees, &count); 
                     printf("Employee added successfully!\n"); 
                 } else { 
                     printf("Maximum employee limit reached!\n"); 
@@ -74,6 +74,7 @@ int main() {
                 break; 
             case 3: 
                 displayEmployees(employees, count); 
+				break;
             case 4: 
                 printf("Exiting...\n"); 
                 break; 
