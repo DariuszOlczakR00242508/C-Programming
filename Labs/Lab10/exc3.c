@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 // Structure definition for employee
 struct Employee {
@@ -7,7 +8,7 @@ struct Employee {
     int employeeID;
     float hoursWorked;
     float hourlyWage;
-    struct Employee next;
+    struct Employee *next;
 };
 
 // Function to create a new employee node
@@ -46,8 +47,8 @@ void calculateWeeklyPay(struct Employee *head) {
     struct Employee *current = head;
     while (current != NULL) {
         float weeklyPay = current->hoursWorked * current->hourlyWage;
-        printf("%s\t%d\t\t%.2f\t\t%.2f\t\t%.2f\n", current->name, current->employeeID,
-               current->hoursWorked, current->hourlyWage, weeklyPay);
+        printf("%s\t%d\t\t%.2f\t\t%.2f\t\t%.2f\n", current->name, current->employeeID, current->hoursWorked, current->hourlyWage, weeklyPay);
+		current = current->next;
     }
 }
 
@@ -69,7 +70,7 @@ void freeLinkedList(struct Employee *head) {
     while (current != NULL) {
         struct Employee *temp = current;
         current = current->next;
-        free(head);
+        free(temp);
     }
 }
 
@@ -86,7 +87,7 @@ int main() {
         printf("3. Display Employees\n");
         printf("4. Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", choice);
+        scanf("%d", &choice);
 
         switch (choice) {
             case 1:

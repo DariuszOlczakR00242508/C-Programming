@@ -29,6 +29,23 @@ struct node *addnode(struct node *root, int data) {
     return root;
 } 
 
+// Function to print leaf nodes
+void printLeaves(struct node *root) {
+    if (root == NULL)
+        return;
+
+    // If both left and right are NULL it's a leaf
+    if (root->left == NULL && root->right == NULL) {
+        printf("%d\t", root->data);
+        return;
+    }
+
+    // Otherwise, recurse on left and right
+    printLeaves(root->left);
+    printLeaves(root->right);
+}
+
+
 // Function to perform in-order traversal of the binary tree
 void inorder(struct node *root) {
     // Base case: if the root is NULL, return
@@ -48,6 +65,9 @@ int main() {
     for (int i=0; i < sizeof(node_list)/sizeof(int); i++){
         tree = addnode(tree, node_list[i]);
     }
+	printf("\nLeaf nodes: ");
+	printLeaves(tree);
+	
     // Perform inorder traversal and print the nodes
     inorder(tree);
     return 0;

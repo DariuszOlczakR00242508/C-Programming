@@ -6,6 +6,7 @@
 struct subject {  
     char *subject_name;  
     float grade;  
+	struct subject *next;
 };  
 
 // Student structure  
@@ -48,55 +49,122 @@ void populate_subjects(struct student *student1) {
     }
 }
 
+void add_subject(struct student *student1) {
+    struct subject *new_subject = malloc(sizeof(struct subject));
+    if (new_subject == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+
+    char temp[100];
+
+    printf("Enter subject name: ");
+    scanf("%s", temp);
+
+    // Allocate memory for subject name
+    new_subject->subject_name = malloc(strlen(temp) + 1);
+    if (new_subject->subject_name == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    strcpy(new_subject->subject_name, temp);
+
+    printf("Enter grade: ");
+    scanf("%f", &new_subject->grade);
+
+    new_subject->next = NULL;
+
+    // If list is empty first node
+    if (student1->subjects == NULL) {
+        student1->subjects = new_subject;
+    } 
+    else {
+        // Traverse to end
+        struct subject *current = student1->subjects;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = new_subject;
+    }
+
+    student1->num_subjects++;
+}
+
 // Function to display statistics
 void display_subject_statistics(struct student *student1) {
+    if (student1->subjects == NULL) {
+        printf("No subjects available.\n");
+        return;
+    }
+
     float sum = 0;
-    float max_grade = student1->subjects[0].grade;
-    int max_index = 0;
+    float max_grade = -1;
+    char *top_subject = NULL;
 
-    for (int i = 0; i < student1->num_subjects; i++) {
-        sum += student1->subjects[i].grade;
+    struct subject *current = student1->subjects;
 
-        if (student1->subjects[i].grade > max_grade) {
-            max_grade = student1->subjects[i].grade;
-            max_index = i;
+    while (current != NULL) {
+        sum += current->grade;
+
+        if (current->grade > max_grade) {
+            max_grade = current->grade;
+            top_subject = current->subject_name;
         }
+
+        current = current->next;
     }
 
     float average = sum / student1->num_subjects;
 
     printf("\nStudent: %s\n", student1->name);
     printf("Average grade: %.2f\n", average);
-    printf("Highest grade: %.2f in %s\n", max_grade, student1->subjects[max_index].subject_name);
+    printf("Highest grade: %.2f in %s\n", max_grade, top_subject);
+}
+
+void free_subjects(struct student *student1) {
+    struct subject *current = student1->subjects;
+    struct subject *temp;
+
+    while (current != NULL) {
+        temp = current;
+        current = current->next;
+
+        free(temp->subject_name);
+        free(temp);
+    }
 }
 
 int main() {
     struct student s;
+    s.subjects = NULL;
+    s.num_subjects = 0;
 
-    // Allocate memory for student name
     char temp_name[100];
     printf("Enter student name: ");
     scanf("%s", temp_name);
 
     s.name = malloc(strlen(temp_name) + 1);
-    if (s.name == NULL) {
-        printf("Memory allocation failed\n");
-        return 1;
-    }
     strcpy(s.name, temp_name);
 
-    // Populate subjects
-    populate_subjects(&s);
+    int choice;
 
-    // Display statistics
-    display_subject_statistics(&s);
+    do {
+        printf("\n1. Add Subject\n2. Show Statistics\n3. Exit\nChoice: ");
+        scanf("%d", &choice);
+
+        if (choice == 1) {
+            add_subject(&s);
+        } 
+        else if (choice == 2) {
+            display_subject_statistics(&s);
+        }
+
+    } while (choice != 3);
 
     // Free memory
-    for (int i = 0; i < s.num_subjects; i++) {
-        free(s.subjects[i].subject_name);
-    }
-    free(s.subjects);
+    free_subjects(&s);
     free(s.name);
+
 
     return 0;
 }
