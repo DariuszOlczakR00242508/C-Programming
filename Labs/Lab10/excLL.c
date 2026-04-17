@@ -25,6 +25,9 @@ int main(){
 	
 	printf("Name: %s, ID: %d\n", new_student->name, new_student->stud_id);
 	
+	//Add employee
+	
+	
 	free(new_student);
 	
 	return 0;

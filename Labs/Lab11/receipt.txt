@@ -1,0 +1,6 @@
+Supermarket Receipt 
+Item Price Quantity
+Milk 1.45 2
+Bread 3.99 1
+Apple 0.25 4
+Chocolate 1.75 2
