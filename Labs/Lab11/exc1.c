@@ -8,7 +8,7 @@ void calculate_receiept(char *file_name){
 	FILE *f = fopen(file_name, "r");
 	
 	while (!feof(f)){    // While not at the end of the file_name
-		matched = fscanf(f, "%s %f %d\n", item_name, &price, &qty);
+		matched = fscanf(f, "%s %f %d\n", item_name, &price, &qty); // 
 		if (matched == 3){  //If the line matches the expected pattern
 			total_price += (price * qty);
 			number_of_items += qty;
