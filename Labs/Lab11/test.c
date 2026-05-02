@@ -44,7 +44,7 @@ void append_content(char *file_name){
 	char text[100];
 	
 	// Append text to the file
-	printf("\nEnter text to append: ");
+	printf("\nAdd item, cost and quantity to list: ");
 	fgets(text, sizeof(text), stdin);
 	fprintf(file, "%s", text);
 	

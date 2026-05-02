@@ -1,5 +1,41 @@
 #include <stdio.h>
 
+
+// Defining receipt structure
+typedef struct{
+	char name[20];
+	float price;
+	int qty;
+}
+
+
+
+// Function to read text and save to binary
+void read_text_write_binary(text_name, bin_name){
+	
+	
+}
+
+
+// function to list items
+void list_items(bin_name){
+	
+	
+}
+
+void modify_item(bin_name){
+	
+	
+}
+
+
+
+
+
+
+
+
+
 void print_menu(){
     printf("1. Convert text (receipt.txt) to binary (receipt.bin)\n");
     printf("2. List all receipt items\n");

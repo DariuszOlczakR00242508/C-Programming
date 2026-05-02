@@ -26,8 +26,8 @@ void read_content(char *file_name){
 	fclose(file);
 }
 
-void calculate_receiept(char *file_name){
-	char item_name[10], highest_item[10];
+void calculate_receipt(char *file_name){
+	char item_name[20], highest_item[20];
 	float total_price = 0, price, highest_price = 0;
 	int number_of_items = 0, qty, matched;
 
@@ -52,7 +52,7 @@ void calculate_receiept(char *file_name){
 	}
 	
 	printf("Total price: %0.2f\n", total_price);
-	printf("Average price per item: %0.2f\n", total_price/qty);
+	printf("Average price per item: %0.2f\n", total_price/number_of_items);
 	printf("Most expensive item : %s price: %0.2f\n", highest_item, highest_price);
 	
 }
@@ -66,7 +66,7 @@ void add_item(char *file_name){
 	
 	// Check if exists
 	if (file == NULL){
-		printf("Erro opening file");		
+		printf("Error opening file");		
 		return;
 	}
 	
@@ -90,7 +90,7 @@ int main(){
 	
 	char file_name[] = "receipt.txt";
 	read_content(file_name);
-	calculate_receiept(file_name);
+	calculate_receipt(file_name);
 	add_item(file_name);
 	read_content(file_name);
 	
